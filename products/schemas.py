@@ -1,5 +1,5 @@
-from pydantic import BaseModel, HttpUrl
-from typing import List
+from pydantic import BaseModel
+from typing import List, Optional
 
 class ProductSchema(BaseModel):
     id: int
@@ -8,9 +8,10 @@ class ProductSchema(BaseModel):
     price: float
     rating: float
     stock: int
-    brand: str
-    category: str
-    thumbnail: str  # we use str for simplicity in Rendering
+    # Making these fields optional because they might be missing in some API responses
+    brand: Optional[str] = "N/A" 
+    category: Optional[str] = "General"
+    thumbnail: str
     images: List[str]
 
 class ProductResponseSchema(BaseModel):
