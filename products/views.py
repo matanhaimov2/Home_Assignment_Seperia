@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .services import DummyJsonService
+from django.http import JsonResponse
 
 def product_list(request):
     # Get query parameters from the URL
@@ -41,3 +42,22 @@ def product_list(request):
     }
     
     return render(request, 'products/list.html', context)
+
+def api_products_list(request):
+    """
+    Endpoint that returns the product data in JSON format for the bonus of WordPress
+    """
+    search_query = request.GET.get('search', '')
+    try:
+        page = int(request.GET.get('page', 1))
+    except ValueError:
+        page = 1
+
+    # using the same logic as the Service layer
+    data = DummyJsonService.get_products(page=page, search_query=search_query)
+
+    if data is None:
+        return JsonResponse({'error': 'Failed to fetch data'}, status=500)
+
+    # converting the Pydantic object to a dictionary and returning it as JSON
+    return JsonResponse(data.dict())
