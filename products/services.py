@@ -1,5 +1,6 @@
 import requests
 from .schemas import ProductResponseSchema
+from requests.exceptions import RequestException
 
 class DummyJsonService:
     BASE_URL = "https://dummyjson.com/products"
@@ -17,8 +18,12 @@ class DummyJsonService:
             url = cls.BASE_URL
             params = {"limit": limit, "skip": skip}
 
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        
-        # validation of the data
-        return ProductResponseSchema(**response.json())
+        try:
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+
+            # validation of the data
+            return ProductResponseSchema(**response.json())
+        except (RequestException, ValueError) as e:
+            print(f"API Error: {e}") 
+            return None

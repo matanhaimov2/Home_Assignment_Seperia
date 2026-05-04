@@ -18,6 +18,15 @@ def product_list(request):
         limit=limit
     )
 
+    if data is None:
+        context = {
+            'products': [],
+            'total': 0,
+            'error_message': "מצטערים, חלה שגיאה במשיכת הנתונים מהשרת. אנא נסו שוב מאוחר יותר.",
+            'search_query': search_query,
+        }
+        return render(request, 'products/list.html', context)
+
     # Calculate total pages for pagination logic
     total_pages = (data.total + limit - 1) // limit
     

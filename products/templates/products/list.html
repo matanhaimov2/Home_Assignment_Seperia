@@ -4,6 +4,12 @@
 
 {% block content %}
 <div class="max-w-7xl mx-auto">
+    {% if error_message %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    
     <h1 class="text-3xl font-bold mb-8 text-gray-800">Product List</h1>
 
     <!-- Search Bar - Server-side search logic -->
