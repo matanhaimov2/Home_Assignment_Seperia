@@ -23,7 +23,7 @@ def product_list(request):
         context = {
             'products': [],
             'total': 0,
-            'error_message': "מצטערים, חלה שגיאה במשיכת הנתונים מהשרת. אנא נסו שוב מאוחר יותר.",
+            'error_message': "sorry, an error occurred while fetching the data from the server. please try again later.",
             'search_query': search_query,
         }
         return render(request, 'products/list.html', context)
